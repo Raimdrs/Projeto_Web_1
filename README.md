@@ -1,5 +1,11 @@
 # Projeto Web 1
 
+
+# Grupo
+- **Raí de Medeiros Cunha** 
+- **Samuel Ótton Nogueira Maia** 
+- **Luiz Eduardo Batista De Lima**
+
 # TaskShare – Gerenciador de Tarefas entre Colegas de Quarto
 
 ## 1. Apresentação do Projeto
