@@ -43,8 +43,8 @@ O sistema é voltado principalmente para:
 ## 5. Tecnologias Utilizadas
 
 - **Frontend:** HTML5, CSS3, JavaScript  
-- **Backend (opcional):** Node.js, PHP ou Firebase  
-- **Banco de Dados (opcional):** PostgreSQL ou MySQL
+- **Backend:** Node.js, PHP ou Firebase  
+- **Banco de Dados:** PostgreSQL ou MySQL
 
 ---
 
