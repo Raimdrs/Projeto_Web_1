@@ -13,8 +13,8 @@ document.addEventListener("DOMContentLoaded", function () {
       isValid = false;
     }
 
-    // Verifica se a senha tem no mínimo 6 caracteres
-    if (passwordInput.value.length < 6) {
+    // Verifica se a senha tem no mínimo 8 caracteres
+    if (passwordInput.value.length < 8) {
       messages.push("A senha deve ter pelo menos 6 caracteres.");
       isValid = false;
     }
