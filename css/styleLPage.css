@@ -1,0 +1,110 @@
+body {
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+  }
+
+  .header-custom {
+    background-color: #f8f9fa; 
+    padding: 1rem 0;
+    box-shadow: 0 2px 4px rgba(0,0,0,.1);
+  }
+
+  .hero {
+    background-color: #6c757d;
+    color: white;
+    padding: 6rem 0; 
+    text-align: center;
+  }
+
+  .hero h2 {
+    font-size: 2.8rem; 
+    font-weight: bold;
+    margin-bottom: 1rem;
+  }
+
+  .hero p {
+    font-size: 1.2rem;
+    margin-bottom: 2rem;
+  }
+
+  .features {
+    padding: 4rem 0;
+    background-color: #ffffff;
+  }
+
+  .features h2.section-title {
+    text-align: center;
+    margin-bottom: 3rem;
+    font-weight: bold;
+    color: #343a40;
+  }
+
+  .feature-card {
+    background-color: #f8f9fa;
+    border: none;
+    border-radius: 0.5rem;
+    padding: 2rem;
+    margin-bottom: 1.5rem;
+    text-align: center;
+    box-shadow: 0 4px 8px rgba(0,0,0,.05);
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+  }
+
+  .feature-card:hover {
+      transform: translateY(-5px);
+      box-shadow: 0 8px 16px rgba(0,0,0,.1);
+  }
+
+  .feature-card .bi { 
+    font-size: 3rem; 
+    color: #0d6efd;
+    margin-bottom: 1rem;
+  }
+
+  .feature-card h3 {
+    font-size: 1.5rem;
+    font-weight: 600;
+    margin-bottom: 0.75rem;
+    color: #495057;
+  }
+
+  .about {
+    padding: 4rem 0;
+    background-color: #e9ecef; 
+  }
+
+  .about h2 {
+      text-align: center;
+      margin-bottom: 2rem;
+      font-weight: bold;
+      color: #343a40;
+  }
+
+  .about p {
+      font-size: 1.1rem;
+      text-align: center;
+      max-width: 700px;
+      margin-left: auto;
+      margin-right: auto;
+  }
+
+  .footer-custom {
+    background-color: #343a40;
+    color: white;
+    padding: 2rem 0;
+    text-align: center;
+  }
+
+  .btn-hero {
+      padding: 0.8rem 2rem;
+      font-size: 1.1rem;
+  }
+
+  .navbar-brand {
+      font-weight: bold;
+      font-size: 1.75rem;
+  }
+
+  .navbar-brand .bi { 
+      margin-right: 0.5rem;
+      color: #0d6efd;
+  }
