@@ -1,23 +1,27 @@
-function validarLogin() {
-  const email = document.getElementById('email').value.trim();
-  const senha = document.getElementById('senha').value.trim();
+document.addEventListener("DOMContentLoaded", function () {
+  const form = document.querySelector("form");
+  const emailInput = document.getElementById("loginEmail");
+  const passwordInput = document.getElementById("loginPassword");
 
-  if (!email || !senha) {
-    alert('Por favor, preencha todos os campos.');
-    return false;
-  }
+  form.addEventListener("submit", function (e) {
+    let isValid = true;
+    let messages = [];
 
-  return true;
-}
-
-function validarSenha() {
-    const senha = document.getElementById('senha').value;
-    const confirmarSenha = document.getElementById('confirmar').value;
-
-    if (senha !== confirmarSenha) {
-      alert('As senhas não coincidem. Tente novamente.');
-      return false;
+    // Verifica se o email é válido
+    if (!emailInput.value.includes("@")) {
+      messages.push("Email inválido.");
+      isValid = false;
     }
-    return true;
-  }
-  
+
+    // Verifica se a senha tem no mínimo 6 caracteres
+    if (passwordInput.value.length < 6) {
+      messages.push("A senha deve ter pelo menos 6 caracteres.");
+      isValid = false;
+    }
+
+    if (!isValid) {
+      e.preventDefault(); // Impede envio do formulário
+      alert(messages.join("\n")); // Exibe mensagens
+    }
+  });
+});
