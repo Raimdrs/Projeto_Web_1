@@ -1,34 +1,46 @@
-  document.querySelector("form").addEventListener("submit", function (e) {
-    e.preventDefault(); // impede o envio até que as validações passem
+document.addEventListener("DOMContentLoaded", () => {
+  const form = document.querySelector("form");
+
+  form.addEventListener("submit", function (event) {
+    event.preventDefault(); // Evita o envio tradicional do formulário
 
     const nome = document.getElementById("registerName").value.trim();
     const email = document.getElementById("registerEmail").value.trim();
     const senha = document.getElementById("registerPassword").value;
-    const confirmarSenha = document.getElementById("confirmPassword").value;
+    const confirmSenha = document.getElementById("confirmPassword").value;
 
-    // Verificações
-    if (nome.length < 3) {
-      alert("O nome deve ter pelo menos 3 caracteres.");
-      return;
-    }
-
-    const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
-    if (!emailRegex.test(email)) {
-      alert("Digite um email válido.");
-      return;
-    }
-
+    // Validação básica
     if (senha.length < 8) {
-      alert("A senha deve ter pelo menos 8 caracteres.");
+      alert("A senha deve conter no mínimo 8 caracteres.");
       return;
     }
 
-    if (senha !== confirmarSenha) {
+    if (senha !== confirmSenha) {
       alert("As senhas não coincidem.");
       return;
     }
 
-    // Se todas as validações passarem, pode enviar o formulário
-    alert("Cadastro realizado com sucesso!");
-    this.submit(); // agora envia o formulário
+    // Verifica se já existe um usuário com o mesmo e-mail
+    const usuariosSalvos = JSON.parse(localStorage.getItem("usuarios")) || [];
+    const usuarioExistente = usuariosSalvos.find(u => u.email === email);
+
+    if (usuarioExistente) {
+      alert("Este e-mail já está cadastrado.");
+      return;
+    }
+
+    // Cria objeto do usuário
+    const novoUsuario = {
+      nome,
+      email,
+      senha
+    };
+
+    // Salva no localStorage (como array de usuários)
+    usuariosSalvos.push(novoUsuario);
+    localStorage.setItem("usuarios", JSON.stringify(usuariosSalvos));
+
+    alert("Conta criada com sucesso!");
+    window.location.href = "login.html"; // redireciona para a tela de login
   });
+});
