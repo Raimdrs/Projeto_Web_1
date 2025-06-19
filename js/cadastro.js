@@ -1,15 +1,16 @@
 document.addEventListener("DOMContentLoaded", () => {
   const form = document.querySelector("form");
 
-  form.addEventListener("submit", function (event) {
+  form.addEventListener("submit", async function (event) {
     event.preventDefault(); // Evita o envio tradicional do formulário
 
     const nome = document.getElementById("registerName").value.trim();
+    const username = document.getElementById("registerUsername").value.trim();
     const email = document.getElementById("registerEmail").value.trim();
     const senha = document.getElementById("registerPassword").value;
     const confirmSenha = document.getElementById("confirmPassword").value;
 
-    // Validação básica
+    // Validações
     if (senha.length < 8) {
       alert("A senha deve conter no mínimo 8 caracteres.");
       return;
@@ -20,27 +21,32 @@ document.addEventListener("DOMContentLoaded", () => {
       return;
     }
 
-    // Verifica se já existe um usuário com o mesmo e-mail
-    const usuariosSalvos = JSON.parse(localStorage.getItem("usuarios")) || [];
-    const usuarioExistente = usuariosSalvos.find(u => u.email === email);
-
-    if (usuarioExistente) {
-      alert("Este e-mail já está cadastrado.");
-      return;
-    }
-
-    // Cria objeto do usuário
-    const novoUsuario = {
-      nome,
-      email,
-      senha
+    const userData = {
+      name: nome,
+      username: username,
+      email: email,
+      password: senha
     };
 
-    // Salva no localStorage (como array de usuários)
-    usuariosSalvos.push(novoUsuario);
-    localStorage.setItem("usuarios", JSON.stringify(usuariosSalvos));
+    try {
+      const response = await fetch("http://localhost:8080/api/v1/users", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json"
+        },
+        body: JSON.stringify(userData)
+      });
 
-    alert("Conta criada com sucesso!");
-    window.location.href = "login.html"; // redireciona para a tela de login
+      if (response.ok) {
+        alert("Conta criada com sucesso!");
+        window.location.href = "login.html";
+      } else {
+        const errorText = await response.text();
+        alert("Erro ao criar conta: " + errorText);
+      }
+    } catch (error) {
+      console.error("Erro na requisição:", error);
+      alert("Não foi possível conectar ao servidor.");
+    }
   });
 });

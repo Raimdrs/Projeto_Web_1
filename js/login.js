@@ -1,50 +1,66 @@
-document.addEventListener("DOMContentLoaded", function () {
-  const form = document.querySelector("form");
-  const emailInput = document.getElementById("loginEmail");
-  const passwordInput = document.getElementById("loginPassword");
+document.addEventListener('DOMContentLoaded', () => {
 
-  form.addEventListener("submit", function (e) {
-    e.preventDefault(); // Impede envio do formulário
+  const loginForm = document.querySelector('form');
+  const usernameInput = document.getElementById('loginUsername');
+  const passwordInput = document.getElementById('loginPassword');
+  const submitButton = document.querySelector('button[type="submit"]');
 
-    const email = emailInput.value.trim();
-    const senha = passwordInput.value;
+  loginForm.addEventListener('submit', (event) => {
+    event.preventDefault();
 
-    let isValid = true;
-    let messages = [];
+    removeExistingErrorMessages();
 
-    // Verificação básica
-    if (!email.includes("@")) {
-      messages.push("Email inválido.");
-      isValid = false;
-    }
+    const loginData = {
+      username: usernameInput.value,
+      password: passwordInput.value,
+    };
 
-    if (senha.length < 8) {
-      messages.push("A senha deve ter pelo menos 8 caracteres.");
-      isValid = false;
-    }
+    submitButton.disabled = true;
+    submitButton.textContent = 'Verificando...';
 
-    if (!isValid) {
-      alert(messages.join("\n"));
-      return;
-    }
+    fetch('http://localhost:8080/api/v1/users/auth', {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify(loginData),
+    })
+    .then(async response => {
+      if (response.ok) {
+        return response.json();
+      }
+      const errorText = await response.text();
+      throw new Error(errorText || 'Não foi possível fazer login. Verifique suas credenciais.');
+    })
+    .then(data => {
+      console.log('Login realizado com sucesso:', data);
 
-    // Busca os usuários salvos
-    const usuarios = JSON.parse(localStorage.getItem("usuarios")) || [];
+      // Aqui espera-se que a API retorne um token
+      localStorage.setItem('authToken', data.token);
 
-    // Verifica se o e-mail e senha correspondem a algum usuário
-    const usuarioEncontrado = usuarios.find(
-      (u) => u.email === email && u.senha === senha
-    );
+      // Redireciona para o dashboard ou página protegida
+      window.location.href = 'sistema.html';
+    })
+    .catch(error => {
+      console.error('Erro ao fazer login:', error.message);
+      displayErrorMessage(error.message);
 
-    if (usuarioEncontrado) {
-      // Pode salvar o login em localStorage (simulando sessão, se quiser)
-      localStorage.setItem("usuarioLogado", JSON.stringify(usuarioEncontrado));
-      alert("Login realizado com sucesso!");
-
-      // Redireciona para a página principal do sistema (ajuste o nome do arquivo se necessário)
-      window.location.href = "sistema.html";
-    } else {
-      alert("Email ou senha incorretos.");
-    }
+      submitButton.disabled = false;
+      submitButton.textContent = 'Login';
+    });
   });
+
+  function displayErrorMessage(message) {
+    const errorElement = document.createElement('div');
+    errorElement.className = 'alert alert-danger mt-3 error-message';
+    errorElement.textContent = message;
+    loginForm.insertBefore(errorElement, submitButton);
+  }
+
+  function removeExistingErrorMessages() {
+    const existingError = document.querySelector('.error-message');
+    if (existingError) {
+      existingError.remove();
+    }
+  }
 });
