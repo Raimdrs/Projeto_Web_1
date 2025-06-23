@@ -36,7 +36,7 @@ document.addEventListener('DOMContentLoaded', () => {
       console.log('Login realizado com sucesso:', data);
 
       // Aqui espera-se que a API retorne um token
-      localStorage.setItem('authToken', data.token);
+      localStorage.setItem('authToken', data.accessToken);
 
       // Redireciona para o dashboard ou página protegida
       window.location.href = 'grupos.html';
