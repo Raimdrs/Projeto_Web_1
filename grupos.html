@@ -1,0 +1,80 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>TaskShare - Meus Grupos</title>
+
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet" />
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
+
+  <style>
+    body {
+      background-color: #f8f9fa;
+    }
+    .group-list-item:hover {
+      background-color: #e9ecef;
+      cursor: pointer;
+    }
+    .card {
+      box-shadow: 0 0.125rem 0.25rem rgba(0, 0, 0, 0.075);
+    }
+  </style>
+</head>
+<body>
+  <nav class="navbar navbar-expand-lg navbar-dark bg-dark px-3">
+    <a class="navbar-brand" href="#"><i class="bi bi-card-checklist"></i> TaskShare</a>
+    <div class="ms-auto d-flex align-items-center">
+      <span id="welcomeMessage" class="navbar-text me-3"></span>
+      <button id="logoutBtn" class="btn btn-outline-light">Sair</button>
+    </div>
+  </nav>
+
+  <main class="container mt-4">
+    <div class="row justify-content-center">
+      <div class="col-md-8">
+        <div class="card">
+          <div class="card-header d-flex justify-content-between align-items-center">
+            <h5 class="mb-0">Meus Grupos</h5>
+            <button class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#createGroupModal">
+              <i class="bi bi-plus-circle"></i> Criar Novo Grupo
+            </button>
+          </div>
+          <div id="group-list" class="list-group list-group-flush">
+            </div>
+        </div>
+      </div>
+    </div>
+  </main>
+
+  <div class="modal fade" id="createGroupModal" tabindex="-1" aria-hidden="true">
+    <div class="modal-dialog">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title">Criar Novo Grupo</h5>
+          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+        </div>
+        <div class="modal-body">
+          <form id="create-group-form">
+            <div class="mb-3">
+              <label for="new-group-name" class="form-label">Nome do Grupo</label>
+              <input type="text" class="form-control" id="new-group-name" placeholder="Ex: Moradores do Apê" required>
+            </div>
+            <div class="mb-3">
+              <label for="new-group-description" class="form-label">Descrição</label>
+              <textarea class="form-control" id="new-group-description" rows="3" placeholder="Descreva o grupo..." required></textarea>
+            </div>
+          </form>
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancelar</button>
+          <button type="submit" form="create-group-form" class="btn btn-primary">Salvar</button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+  <script src="js/grupos.js"></script>
+</body>
+</html>

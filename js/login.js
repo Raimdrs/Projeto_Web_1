@@ -39,7 +39,7 @@ document.addEventListener('DOMContentLoaded', () => {
       localStorage.setItem('authToken', data.token);
 
       // Redireciona para o dashboard ou página protegida
-      window.location.href = 'sistema.html';
+      window.location.href = 'grupos.html';
     })
     .catch(error => {
       console.error('Erro ao fazer login:', error.message);
