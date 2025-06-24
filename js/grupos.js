@@ -38,11 +38,7 @@ document.addEventListener("DOMContentLoaded", () => {
       groups.forEach(group => {
         const item = document.createElement("a");
         item.className = "list-group-item list-group-item-action group-list-item"; // Adicionei 'group-list-item' para hover
-        item.href = "#";
-        item.onclick = () => {
-          sessionStorage.setItem("activeGroupId", group.id);
-          window.location.href = "tarefas.html";
-        };
+        item.href = "detalhes-grupo.html?id=" + group.id; // Link para detalhes do grupo
         
         // Cria um div para o nome do grupo
         const groupNameElement = document.createElement("div");
