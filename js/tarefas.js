@@ -151,3 +151,13 @@ function buscarTarefasPorData() {
     }
   }
 }
+
+function goToNewTask() {
+  const urlParams = new URLSearchParams(window.location.search);
+  const groupId = urlParams.get('id');
+  if (groupId) {
+    window.location.href = `nova-tarefa.html?id=${groupId}`;
+  } else {
+    alert('Grupo não encontrado!');
+  }
+}
