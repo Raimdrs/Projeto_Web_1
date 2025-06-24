@@ -38,7 +38,6 @@ document.addEventListener("DOMContentLoaded", () => {
     groupIdInput.readOnly = true; // Opcional: evita que usuário edite
   }
 
-  // Função para carregar dados do grupo (exemplo)
   function loadGroup(id) {
     const groupNameEl = document.getElementById("current-group-name");
     if (groupNameEl) {
@@ -46,12 +45,6 @@ document.addEventListener("DOMContentLoaded", () => {
     }
   }
   loadGroup(groupId);
-
-  // Atualiza o botão de adicionar tarefa com o groupId
-  const addTaskBtn = document.getElementById("add-task-btn");
-  if (addTaskBtn) {
-    addTaskBtn.href = `nova-tarefa.html?id=${groupId}`;
-  }
 
   document.getElementById("task-form")?.addEventListener("submit", async (e) => {
     e.preventDefault();
