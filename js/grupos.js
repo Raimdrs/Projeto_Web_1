@@ -31,19 +31,32 @@ document.addEventListener("DOMContentLoaded", () => {
       groupList.innerHTML = "";
 
       if (groups.length === 0) {
-        groupList.innerHTML = '<li class="list-group-item text-muted">Nenhum grupo criado ainda.</li>';
+        groupList.innerHTML = '<span class="list-group-item text-muted p-2">Nenhum grupo criado ainda.</span>';
         return;
       }
 
       groups.forEach(group => {
         const item = document.createElement("a");
-        item.className = "list-group-item list-group-item-action";
-        item.textContent = group.name;
+        item.className = "list-group-item list-group-item-action group-list-item"; // Adicionei 'group-list-item' para hover
         item.href = "#";
         item.onclick = () => {
           sessionStorage.setItem("activeGroupId", group.id);
           window.location.href = "tarefas.html";
         };
+        
+        // Cria um div para o nome do grupo
+        const groupNameElement = document.createElement("div");
+        groupNameElement.textContent = group.name;
+        groupNameElement.style.fontWeight = "bold"; // Deixa o nome em negrito
+        
+        // Cria um parágrafo para a descrição do grupo
+        const groupDescriptionElement = document.createElement("p");
+        groupDescriptionElement.textContent = group.description;
+        groupDescriptionElement.className = "text-muted mb-0"; // Estilo para texto cinza e margem inferior zero
+        groupDescriptionElement.style.fontSize = "0.9em"; // Tamanho de fonte menor
+
+        item.appendChild(groupNameElement);
+        item.appendChild(groupDescriptionElement);
         groupList.appendChild(item);
       });
     } catch (error) {
