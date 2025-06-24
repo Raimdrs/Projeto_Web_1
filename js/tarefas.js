@@ -1,6 +1,7 @@
 document.addEventListener("DOMContentLoaded", () => {
+  const token = localStorage.getItem("authToken");
   const usuarioLogado = JSON.parse(localStorage.getItem("usuarioLogado"));
-  const activeGroupId = Number(sessionStorage.getItem('activeGroupId'));
+  const welcomeMessage = document.getElementById("welcomeMessage");
 
   const urlParams = new URLSearchParams(window.location.search);
   const groupId = urlParams.get('id');
@@ -25,8 +26,9 @@ document.addEventListener("DOMContentLoaded", () => {
   // }
 
   document.getElementById("logoutBtn").addEventListener("click", () => {
+    localStorage.removeItem("authToken");
     localStorage.removeItem("usuarioLogado");
-    sessionStorage.removeItem('activeGroupId');
+    sessionStorage.clear();
     window.location.href = "login.html";
   });
 
