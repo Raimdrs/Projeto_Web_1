@@ -157,3 +157,13 @@ function goToNewTask() {
     alert('Grupo não encontrado!');
   }
 }
+
+function goToGroupDetail() {
+  const urlParams = new URLSearchParams(window.location.search);
+  const groupId = urlParams.get('id');
+  if (groupId) {
+    window.location.href = `detalhes-grupo.html?id=${groupId}`;
+  } else {
+    alert('Grupo não encontrado!');
+  }
+}
