@@ -157,3 +157,98 @@ function showFeedback(element, message, type) {
         </div>
     `;
 }
+
+/**
+ * Carrega os membros do grupo e popula um elemento select com as opções
+ * @param {string} groupId - ID do grupo
+ * @param {string} selectElementId - ID do elemento select a ser populado
+ * @param {boolean} includeDefaultOption - Se deve incluir uma opção padrão
+ */
+function loadGroupMembersAsOptions(groupId, selectElementId, includeDefaultOption = true) {
+    fetch(`http://localhost:8080/api/v1/groups/${groupId}`, {
+        method: "GET",
+        headers: {
+            Authorization: `Bearer ${localStorage.getItem("authToken")}`
+        }
+    })
+    .then(response => {
+        if (!response.ok) throw new Error('Erro ao buscar membros do grupo');
+        return response.json();
+    })
+    .then(data => {
+        const groupMembers = data.members || [];
+        const selectElement = document.getElementById(selectElementId);
+        
+        if (!selectElement) {
+            console.error(`Elemento select com ID '${selectElementId}' não encontrado`);
+            return;
+        }
+        
+        // Limpar opções existentes
+        selectElement.innerHTML = '';
+        
+        // Adicionar opção padrão (opcional)
+        if (includeDefaultOption) {
+            const defaultOption = document.createElement('option');
+            defaultOption.value = '';
+            defaultOption.textContent = 'Selecione os responsáveis...';
+            defaultOption.disabled = true;
+            selectElement.appendChild(defaultOption);
+        }
+        
+        // Adicionar cada membro como opção
+        groupMembers.forEach(member => {
+            const option = document.createElement('option');
+            option.value = member.id; // ou member.username, dependendo do backend
+            option.textContent = `${member.name} (@${member.username})`;
+            option.dataset.memberId = member.id;
+            option.dataset.memberUsername = member.username;
+            option.dataset.memberName = member.name;
+            selectElement.appendChild(option);
+        });
+        
+        console.log(`Carregados ${groupMembers.length} membros no select ${selectElementId}`);
+    })
+    .catch(error => {
+        console.error('Erro ao carregar membros:', error);
+        alert(error.message || 'Erro ao carregar membros do grupo.');
+    });
+}
+
+/**
+ * Obtém os IDs dos responsáveis selecionados em um elemento select múltiplo
+ * @param {string} selectElementId - ID do elemento select
+ * @returns {Array<string>} Array com os IDs selecionados
+ */
+function getSelectedResponsibleIds(selectElementId) {
+    const selectElement = document.getElementById(selectElementId);
+    if (!selectElement) {
+        console.error(`Elemento select com ID '${selectElementId}' não encontrado`);
+        return [];
+    }
+    
+    const selectedOptions = Array.from(selectElement.selectedOptions);
+    return selectedOptions.map(option => option.value).filter(value => value !== '');
+}
+
+/**
+ * Obtém informações completas dos responsáveis selecionados
+ * @param {string} selectElementId - ID do elemento select
+ * @returns {Array<Object>} Array com objetos contendo id, username e name
+ */
+function getSelectedResponsibleDetails(selectElementId) {
+    const selectElement = document.getElementById(selectElementId);
+    if (!selectElement) {
+        console.error(`Elemento select com ID '${selectElementId}' não encontrado`);
+        return [];
+    }
+    
+    const selectedOptions = Array.from(selectElement.selectedOptions);
+    return selectedOptions
+        .filter(option => option.value !== '')
+        .map(option => ({
+            id: option.value,
+            username: option.dataset.memberUsername,
+            name: option.dataset.memberName
+        }));
+}

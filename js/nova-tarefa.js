@@ -19,6 +19,7 @@ document.addEventListener("DOMContentLoaded", () => {
     const type = taskTypeSelect.value;
     normalSection.style.display = type === "normal" ? "block" : "none";
     recorrenteSection.style.display = type === "recorrente" ? "block" : "none";
+    
   });
 
   // Captura os parâmetros da URL
@@ -38,13 +39,51 @@ document.addEventListener("DOMContentLoaded", () => {
     groupIdInput.readOnly = true; // Opcional: evita que usuário edite
   }
 
-  function loadGroup(id) {
-    const groupNameEl = document.getElementById("current-group-name");
-    if (groupNameEl) {
-      groupNameEl.textContent = `Grupo #${id}`;
-    }
+  function loadGroupMembersAsOptions(groupId) {
+    
+    fetch(`http://localhost:8080/api/v1/groups/${groupId}`, {
+      method: "GET",
+      headers: {
+        Authorization: `Bearer ${localStorage.getItem("authToken")}`
+      }
+    })
+      .then(response => {
+        if (!response.ok) throw new Error('Erro ao buscar membros do grupo');
+        return response.json();
+      })
+      .then(data => {
+        const groupMembers = data.members || [];
+
+        const responsibleDiv = document.getElementById("responsibleSelect")
+
+        const selectElement = document.createElement('select');       
+        selectElement.setAttribute("class", "form-multi-select")
+        selectElement.setAttribute("id", "responsibleIds")
+        selectElement.setAttribute('multiple', ''); 
+        selectElement.setAttribute("data-coreui-search", "global")
+
+        const scriptElement = document.createElement("script")
+        scriptElement.setAttribute("src", "https://cdn.jsdelivr.net/npm/@coreui/coreui-pro@5.14.2/dist/js/coreui.bundle.min.js")
+        
+        // Adicionar cada membro como opção
+        groupMembers.forEach((member, index) => {
+          console.log(`Adicionando membro ${index + 1}:`, member);
+          const option = document.createElement('option');
+          option.value = member.id;
+          option.textContent = `${member.name} (@${member.username})`;
+          selectElement.appendChild(option);
+        });
+        console.log(selectElement)
+        responsibleDiv.appendChild(selectElement)
+        responsibleDiv.appendChild(scriptElement)
+      })
+      .catch(error => {
+        console.error('Erro ao carregar membros:', error);
+        alert(error.message || 'Erro ao carregar membros do grupo.');
+      });
   }
-  loadGroup(groupId);
+
+  loadGroupMembersAsOptions(groupId)
 
   document.getElementById("task-form")?.addEventListener("submit", async (e) => {
     e.preventDefault();
@@ -63,9 +102,12 @@ document.addEventListener("DOMContentLoaded", () => {
       const endDate = document.getElementById("endDate").value;
       const checkboxes = document.querySelectorAll('#recorrente-section input[type="checkbox"]:checked');
       const daysOfWeek = Array.from(checkboxes).map(cb => cb.value);
-      const responsibleIds = document.getElementById("responsibleIds").value
-        .split(",")
-        .map(id => id.trim());
+      function getSelectedResponsibleIds() {
+        const responsibleSelect = document.getElementById('responsibleIds');
+        const selectedOptions = Array.from(responsibleSelect.selectedOptions);
+        return selectedOptions.map(option => option.value);
+      }
+      const responsibleIds = getSelectedResponsibleIds();
 
       taskData = {
         description,

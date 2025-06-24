@@ -42,6 +42,7 @@
             <a href="convites.html" class="ms-2 btn btn-outline-light">Convites</a>
         </div>
         <div class="ms-auto">
+            <span id="welcomeMessage" class="navbar-text me-3"></span>
             <button id="logoutBtn" class="btn btn-outline-light">Sair</button>
         </div>
     </nav>
@@ -64,11 +65,13 @@
                     <div class="card-body">
                         <form id="add-task-form" class="mb-4">
                             <div class="d-flex mb-2">
-                                <button type="button" id="prev-day-btn" class="btn btn-outline-secondary me-1" title="Dia anterior">
+                                <button type="button" id="prev-day-btn" class="btn btn-outline-secondary me-1"
+                                    title="Dia anterior">
                                     <i class="bi bi-chevron-left"></i>
                                 </button>
                                 <input type="date" id="task-date" class="form-control me-2" required>
-                                <button type="button" id="next-day-btn" class="btn btn-outline-secondary me-2" title="Próximo dia">
+                                <button type="button" id="next-day-btn" class="btn btn-outline-secondary me-2"
+                                    title="Próximo dia">
                                     <i class="bi bi-chevron-right"></i>
                                 </button>
                             </div>
@@ -76,7 +79,7 @@
                                 <i class="bi bi-search"></i> Buscar
                             </button>
                             <script>
-                                document.addEventListener('DOMContentLoaded', function() {
+                                document.addEventListener('DOMContentLoaded', function () {
                                     const dateInput = document.getElementById('task-date');
                                     const prevBtn = document.getElementById('prev-day-btn');
                                     const nextBtn = document.getElementById('next-day-btn');

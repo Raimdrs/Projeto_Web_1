@@ -1,7 +1,5 @@
 document.addEventListener("DOMContentLoaded", () => {
   const token = localStorage.getItem("authToken");
-  const usuarioLogado = JSON.parse(localStorage.getItem("usuarioLogado"));
-  const welcomeMessage = document.getElementById("welcomeMessage");
 
   const urlParams = new URLSearchParams(window.location.search);
   const groupId = urlParams.get('id');
@@ -12,18 +10,16 @@ document.addEventListener("DOMContentLoaded", () => {
     return;
   }
 
-  // 1. Guarda de Rota
-  // if (!usuarioLogado) {
-  //   alert("Você precisa estar logado para acessar o sistema.");
-  //   window.location.href = "login.html";
-  //   return;
-  // }
-  // // Se não houver um grupo ativo, volta para a página de grupos
-  // if (!activeGroupId) {
-  //   alert("Nenhum grupo selecionado.");
-  //   window.location.href = "grupos.html";
-  //   return;
-  // }
+  const usuarioLogado = JSON.parse(localStorage.getItem("usuarioLogado"));
+  const welcomeMessage = document.getElementById("welcomeMessage");
+
+  if (!token) {
+    alert("Você precisa estar logado.");
+    window.location.href = "login.html";
+    return;
+  }
+
+  welcomeMessage.textContent = usuarioLogado?.username ? `Olá, ${usuarioLogado.username}` : "Olá!";
 
   document.getElementById("logoutBtn").addEventListener("click", () => {
     localStorage.removeItem("authToken");
@@ -88,17 +84,17 @@ function fetchTasksByGroupAndDate(date) {
           taskElement.className = `list-group-item d-flex justify-content-between align-items-center ${task.completed ? 'task-completed' : ''}`;
           let bgColor = '';
           if (task.status === "OVERDUE") {
-          bgColor = 'background-color: #f8d7da;'; // vermelho claro
+            bgColor = 'background-color: #f8d7da;'; // vermelho claro
           } else if (task.status === "COMPLETED") {
-          bgColor = 'background-color: #cfe2ff;'; // azul claro
+            bgColor = 'background-color: #cfe2ff;'; // azul claro
           } else if (task.status === "TODO") {
-          bgColor = 'background-color: #f8f9fa;'; // cinza claro
+            bgColor = 'background-color: #f8f9fa;'; // cinza claro
           }
           taskElement.style = `cursor: pointer; ${bgColor}`;
           taskElement.dataset.taskId = task.id;
-            // Define a cor de fundo conforme o status da tarefa
+          // Define a cor de fundo conforme o status da tarefa
 
-            taskElement.innerHTML = `
+          taskElement.innerHTML = `
             <div style="width: 100%; display: flex; align-items: center;">
               <label class="form-check-label">${task.description}</label>
               <span class="badge bg-primary ms-2">${task.responsibleName ? task.responsibleName : 'Sem responsável'}</span>
@@ -108,16 +104,16 @@ function fetchTasksByGroupAndDate(date) {
             </div>
             `;
 
-            // Adiciona o event listener ao botão "Concluir"
-            const completeBtn = taskElement.querySelector('.complete-task-btn');
-            if (completeBtn) {
-              completeBtn.addEventListener('click', (e) => {
+          // Adiciona o event listener ao botão "Concluir"
+          const completeBtn = taskElement.querySelector('.complete-task-btn');
+          if (completeBtn) {
+            completeBtn.addEventListener('click', (e) => {
               e.stopPropagation();
               concluirTask(groupId, task.id)
                 .then(() => fetchTasksByGroupAndDate(date))
                 .catch(error => alert(error.message || 'Erro ao concluir tarefa.'));
-              });
-            }
+            });
+          }
           taskList.appendChild(taskElement);
         });
       }
