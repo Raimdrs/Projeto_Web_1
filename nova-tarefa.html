@@ -1,0 +1,120 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Nova Tarefa - TaskShare</title>
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet" />
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
+  <style>
+    body {
+      background-color: #f8f9fa;
+    }
+    .card {
+      box-shadow: 0 0.125rem 0.25rem rgba(0, 0, 0, 0.075);
+    }
+    .form-section {
+      display: none;
+    }
+  </style>
+</head>
+<body>
+  <nav class="navbar navbar-expand-lg navbar-dark bg-dark px-3">
+    <a class="navbar-brand" href="#"><i class="bi bi-card-checklist"></i> TaskShare</a>
+    <div class="d-flex">
+      <a href="#" class="btn btn-light">Grupos</a>
+      <a href="convites.html" class="ms-2 btn btn-outline-light">Convites</a>
+    </div>
+    <div class="ms-auto d-flex align-items-center">
+      <span id="welcomeMessage" class="navbar-text me-3"></span>
+      <button id="logoutBtn" class="btn btn-outline-light">Sair</button>
+    </div>
+  </nav>
+
+  <main class="container mt-4">
+    <div class="row justify-content-center">
+      <div class="col-md-8">
+        <div class="card p-4">
+          <h4 class="mb-3">Criar Nova Tarefa</h4>
+
+          <form id="task-form">
+            <div class="mb-3">
+              <label class="form-label">Tipo de Tarefa</label>
+              <select class="form-select" id="taskType" required>
+                <option value="" selected disabled>Selecione...</option>
+                <option value="normal">Normal</option>
+                <option value="recorrente">Recorrente</option>
+              </select>
+            </div>
+
+            <div class="mb-3">
+              <label for="description" class="form-label">Descrição</label>
+              <input type="text" class="form-control" id="description" required>
+            </div>
+
+            <!-- Tarefa normal -->
+            <div id="normal-section" class="form-section">
+              <div class="mb-3">
+                <label for="date" class="form-label">Data</label>
+                <input type="date" class="form-control" id="date">
+              </div>
+            </div>
+
+            <!-- Tarefa recorrente -->
+            <div id="recorrente-section" class="form-section">
+              <div class="mb-3">
+                <input type="hidden" class="form-control" id="groupId" placeholder="UUID do grupo">
+              </div>
+              <div class="mb-3">
+                <label class="form-label">Dias da Semana</label>
+                <div class="form-check">
+                  <input class="form-check-input" type="checkbox" value="MONDAY" id="monday">
+                  <label class="form-check-label" for="monday">Segunda</label>
+                </div>
+                <div class="form-check">
+                  <input class="form-check-input" type="checkbox" value="TUESDAY" id="tuesday">
+                  <label class="form-check-label" for="tuesday">Terça</label>
+                </div>
+                <div class="form-check">
+                  <input class="form-check-input" type="checkbox" value="WEDNESDAY" id="wednesday">
+                  <label class="form-check-label" for="wednesday">Quarta</label>
+                </div>
+                <div class="form-check">
+                  <input class="form-check-input" type="checkbox" value="THURSDAY" id="thursday">
+                  <label class="form-check-label" for="thursday">Quinta</label>
+                </div>
+                <div class="form-check">
+                  <input class="form-check-input" type="checkbox" value="FRIDAY" id="friday">
+                  <label class="form-check-label" for="friday">Sexta</label>
+                </div>
+                <div class="form-check">
+                  <input class="form-check-input" type="checkbox" value="SATURDAY" id="saturday">
+                  <label class="form-check-label" for="saturday">Sábado</label>
+                </div>
+                <div class="form-check">
+                  <input class="form-check-input" type="checkbox" value="SUNDAY" id="sunday">
+                  <label class="form-check-label" for="sunday">Domingo</label>
+                </div>
+              </div>
+
+              <div class="mb-3">
+                <label for="endDate" class="form-label">Data de Término</label>
+                <input type="date" class="form-control" id="endDate">
+              </div>
+
+              <div class="mb-3">
+                <label for="responsibleIds" class="form-label">IDs dos Responsáveis (separados por vírgula)</label>
+                <input type="text" class="form-control" id="responsibleIds" placeholder="UUIDs separados por vírgula">
+              </div>
+            </div>
+
+            <button type="submit" class="btn btn-primary w-100">Criar Tarefa</button>
+          </form>
+        </div>
+      </div>
+    </div>
+  </main>
+
+  <script src="js/nova-tarefa.js"></script>
+</body>
+</html>
