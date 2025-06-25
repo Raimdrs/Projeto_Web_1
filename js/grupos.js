@@ -11,11 +11,9 @@ document.addEventListener("DOMContentLoaded", () => {
     return;
   }
 
-  // Exibe mensagem de boas-vindas (opcional)
   const usuarioLogado = JSON.parse(localStorage.getItem("usuarioLogado"));
   welcomeMessage.textContent = usuarioLogado?.username ? `Olá, ${usuarioLogado.username}` : "Olá!";
 
-  // Função para carregar grupos existentes
   async function loadGroups() {
     try {
       const response = await fetch("http://localhost:8080/api/v1/groups", {
@@ -52,7 +50,6 @@ document.addEventListener("DOMContentLoaded", () => {
     }
   }
 
-  // Evento de criação de grupo
   createGroupForm.addEventListener("submit", async (e) => {
     e.preventDefault();
 
