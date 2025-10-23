@@ -59,3 +59,6 @@ O sistema é voltado principalmente para:
 - **Fase atual:** Em desenvolvimento  
 - **Previsão de entrega:** Julho de 2025  
 - **Modalidade:** Trabalho acadêmico individual ou em grupo
+
+
+![Logo](assets/ValidarItens.svg)
